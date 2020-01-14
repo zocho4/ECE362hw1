@@ -1,0 +1,80 @@
+MAIN
+    - Inputs: argc, argv
+    - Output: integer
+
+	//parse the command line arguments
+	//we have an integer argc that is the number of arguments including the command to run Mqg
+	//we also have a pointer to an array of strings (char pointers) for the flags
+
+	INITIALIZE variables to hold command line arguments
+	FOR (each element of argv)
+	    CASE "-q": set number of queues variable
+	    CASE "-r": set number of requests variable
+	    CASE "-min": set min int value
+	    CASE "-max": set max int value
+	END FOR
+
+        DECLARE two regular arrays for which number of elements is number of queues
+		(one is to track number of elements in the queue other is to track its sum)
+
+	//make the array of arrays
+	ALLOCATE dynamic array of int* types (size is q*sizeof(int*))
+
+	//fill in each sub array
+	FOR (each queue)
+	    IF (filling the last queue)
+		set number of elements to current number of requests
+	    ELSE
+	        getRand() for number of elements in queue
+
+	    record number of elements in queue in corresponding array element
+
+	    ALLOCATE dynamic array for queue with that number of int types
+
+	    FOR (each element in queue)
+		getRand() and set to int value in element
+	    END FOR
+
+            sumQueue() and set to corresponding element in sum-array
+	    IF (this sum is larger than current max sum)
+		set this sum to new max
+	    END IF
+
+	    decrement number of requests	    
+	END FOR
+
+	//we now have a pointer to an array of integer pointers (the queues)
+	//the integer pointers point to the int elements of each queue
+	//note that to reference a queue we will use outsideArray[queue index]
+	//where outsideArray is of type int** 
+	//to reference an element of a queue we will use *(outsideArray[queue index])[element index]
+	//we also have an array of integers that hold the sum of each queue
+
+	printQueue() for queue with largest sum
+
+	FREE all dynamic arrays
+END MAIN
+
+
+
+FUNCTION getRand()
+    - Inputs: minimum int value, maximum int value
+    - Outputs: integer between min and max
+    Uses mod() and addition to generate "random" number between min and max
+END FUNCTION
+
+
+
+FUNCTION sumQueue()
+    - Inputs: pointer to queue to be summed
+    - Outputs: int type sum
+    Iterates through the elements in the queue adding them together
+END FUNCTION
+
+
+
+FUNCTION printQueue()
+    - Inputs: pointer to the queue
+    - Outputs: none
+    Iterates through the elements in the queue printing them out
+END FUNCTION
