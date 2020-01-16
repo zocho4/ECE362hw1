@@ -7,40 +7,48 @@ MAIN
 	//we also have a pointer to an array of strings (char pointers) for the flags
 
 	INITIALIZE variables to hold command line arguments
-	FOR (each element of argv)
+	FOR (each element of argv) //use while loop though!
 	    CASE "-q": set number of queues variable
 	    CASE "-r": set number of requests variable
 	    CASE "-min": set min int value
 	    CASE "-max": set max int value
 	END FOR
 
-        DECLARE two regular arrays for which number of elements is number of queues
-		(one is to track number of elements in the queue other is to track its sum)
+	//make the array of struct pointers
+	ALLOCATE dynamic array of queueStruct* types (size is q*sizeof(queueStruct*))
 
-	//make the array of arrays
-	ALLOCATE dynamic array of int* types (size is q*sizeof(int*))
+	//generate a list of q-1 random numbers between 0 and r
+	ALLOCATE dynamic array to hold them
+	FOR each element
+	    FUNCTION getRand()
+	END FOR
+
+	//sort it and use it to calculate the number or integers per queue
+	QSORT the array
+	SET the number of ints for the first queue to the first array element
+	FOR all middle queues
+	    subtract current element from previous and set to queue numElements
+	END FOR
+	SET number of ints for last queue to 100 - last array element
 
 	//fill in each sub array
-	FOR (each queue)
-	    IF (filling the last queue)
-		set number of elements to current number of requests
-	    ELSE
-	        getRand() for number of elements in queue
-
-	    record number of elements in queue in corresponding array element
-
-	    ALLOCATE dynamic array for queue with that number of int types
+	FOR each queue
+	    ALLOCATE dynamic array for queue with appropriate number of int types
 
 	    FOR (each element in queue)
 		getRand() and set to int value in element
 	    END FOR
 
             sumQueue() and set to corresponding element in sum-array
-	    IF (this sum is larger than current max sum)
-		set this sum to new max
+	    PRINT the sum for this queue
+
+	    IF this is first queue
+		SET min sum index to this queues index
 	    END IF
 
-	    decrement number of requests	    
+	    IF (this sum is less than current min sum)
+		set this sum to new min
+	    END IF	    
 	END FOR
 
 	//we now have a pointer to an array of integer pointers (the queues)
@@ -52,7 +60,7 @@ MAIN
 
 	printQueue() for queue with largest sum
 
-	FREE all dynamic arrays
+	FREE all dynamic data
 END MAIN
 
 
