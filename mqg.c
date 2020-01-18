@@ -16,10 +16,10 @@ The final result is to generate an array of integer arrays.
 #include <string.h>
 
 //////////Typedef//////////
-typedef struct {
+typedef struct { //struct that holds queue and queue info
     int numElements;
     int queueSum;
-    int *intQueue;
+    int *intQueue; //this is the actual queue
 }queueStruct_t, *queueStructPtr_t;
 
 
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     int minInt = 0; //-min
     int maxInt = 20; //-max
     int currentArg = 1; //for tracking which argv we are checking
-    int minQueueIndex = 0;
+    int minQueueIndex = 0; //for finding the queue with smallest sum
 
     //check and parse the command line arguments
     printf("argc is %d\n", argc);
@@ -140,8 +140,6 @@ int main(int argc, char *argv[]) {
     //use the sorted list of markers to calculate the number of integers per queue
     int lastQueueIndex = numQueues-1;
     for (int i=0; i<numQueues; ++i) {
-	///////////*check for case where there are no queues*//////////
-
 
 	//allocate memory for the queue struct
 	queueArray[i] = (queueStructPtr_t)malloc(sizeof(queueStruct_t));
@@ -204,7 +202,7 @@ int main(int argc, char *argv[]) {
 
     } //end for loop that iterates through each struct
 
-    //if there are queues to print the queue with smallest sum
+    //if there are queues to print, print the queue with smallest sum
     if (numQueues>0) {
         printQueue(minQueueIndex, queueArray[minQueueIndex]);
     }
@@ -232,6 +230,7 @@ int main(int argc, char *argv[]) {
 
 //////////Function definitions//////////
 
+//returns random number between min and max
 int getRand(int min, int max) {
     int modVal = (max-min) + 1;
     int randNum = (rand() % modVal) + min;
@@ -239,13 +238,13 @@ int getRand(int min, int max) {
 }
 
 
-
+//campare function for qsort, will make array smallest to largest
 int compFunc(const void *a, const void *b) {
 	return ( *((int*)a) - *((int*)b) );
 }
 
 
-
+//returns sum of a queue when given a pointer to the queue struct
 int sumQueue(queueStructPtr_t queueToSum) {
     int queueSum = 0;
     for (int i=0; i< queueToSum->numElements; ++i) {
@@ -269,9 +268,3 @@ void printQueue(int minQueueIndex, queueStructPtr_t queueToPrint) {
     return;
 }
 
-
-/*
-Assignment checklist
-(x) Test out the use of argc and argv
-( ) Test out how to generate a random number with certain parameters
-*/
