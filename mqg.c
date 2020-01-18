@@ -7,7 +7,8 @@ ECE362 HW1
 This is the main program for the MultiQueue Generator assignment.
 It takes input arguments from the command line which are used to 
 determine how it will execute the rest of the program.
-The final result is to generate an array of integer arrays.
+The final result is to generate an array of struct pointers.
+All other actions are described in detail in the readme.
 */
 
 #include <stdio.h>
